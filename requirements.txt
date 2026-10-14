@@ -4,3 +4,6 @@ sqlalchemy
 pandas
 pydantic
 faker
+python-dotenv
+langchain
+langchain-google-genai

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.database import engine, Base
-from app.routers import atendimentos, relatorios
+from app.routers import atendimentos, relatorios, ai
 
 Base.metadata.create_all(bind=engine)
 
@@ -12,6 +12,7 @@ app = FastAPI(
 
 app.include_router(atendimentos.router)
 app.include_router(relatorios.router)
+app.include_router(ai.router)
 
 @app.get("/", tags=["Health Check"])
 def raiz():

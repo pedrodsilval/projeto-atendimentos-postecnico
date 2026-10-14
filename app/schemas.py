@@ -29,3 +29,18 @@ class AtendimentoResponse(AtendimentoBase):
 
     class Config:
         from_attributes = True
+
+# Schemas para a Integração com Inteligência Artificial
+class ChatRequest(BaseModel):
+    pergunta: str = Field(..., description="Pergunta livre a ser respondida com base nos dados do sistema")
+
+class RelatorioExecutivoResponse(BaseModel):
+    relatorio_executivo: str = Field(..., description="Texto estruturado do relatório executivo gerado pela IA")
+
+class AnaliseSentimentoResponse(BaseModel):
+    sentimento: str = Field(..., description="Sentimento provável: Positivo, Neutro, Negativo ou Furioso")
+    analise: str = Field(..., description="Diagnóstico técnico da situação do atendimento")
+    sugestao_resposta: str = Field(..., description="Minuta de resposta recomendada para o cliente")
+
+class ChatResponse(BaseModel):
+    resposta_ia: str = Field(..., description="Resposta contextualizada gerada pela IA")

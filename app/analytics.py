@@ -49,8 +49,20 @@ def analises_adicionais(db: Session) -> dict:
     df["dia_semana"] = df["data_atendimento"].dt.day_name()
     volume_por_dia = df["dia_semana"].value_counts().to_dict()
 
+    df_avaliados = df.dropna(subset=["avaliacao_satisfacao", "duracao_minutos"])
+    
+    correlacao = None
+    if len(df_avaliados) > 1:
+        corr_val = df_avaliados["duracao_minutos"].corr(df_avaliados["avaliacao_satisfacao"])
+        if pd.notna(corr_val):
+            correlacao = round(float(corr_val), 2)
+            
+    ofensores = df_avaliados.groupby("categoria")["avaliacao_satisfacao"].mean().round(2).sort_values().to_dict() if not df_avaliados.empty else {}
+
     return {
         "tempo_medio_por_categoria": tempo_por_cat,
         "satisfacao_media_por_atendente": satisfacao_por_atendente,
-        "volume_por_dia_semana": volume_por_dia
+        "volume_por_dia_semana": volume_por_dia,
+        "correlacao_tempo_nota": correlacao,
+        "ofensores_recorrentes_por_satisfacao": ofensores
     }
